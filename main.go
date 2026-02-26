@@ -90,9 +90,15 @@ func main() {
 		return transactions[i].Date.Before(transactions[j].Date)
 	})
 
-	// Calculate the daily balance for each day in the billing cycle
-	currentDate := time.Date(2025, time.April, 1, 0, 0, 0, 0, time.Local) // April 1, 2025
-	endDate := time.Date(2025, time.April, 30, 0, 0, 0, 0, time.Local)    // April 30, 2025
+	// Derive billing cycle from the starting balance date
+	startDate, err := time.ParseInLocation("2 January, 2006", records[0][1], time.Local)
+	if err != nil {
+		fmt.Printf("Error parsing start date: %v\n", err)
+		return
+	}
+	// First and last day of that month (day 0 of next month = last day of current month)
+	currentDate := time.Date(startDate.Year(), startDate.Month(), 1, 0, 0, 0, 0, time.Local)
+	endDate := time.Date(startDate.Year(), startDate.Month()+1, 0, 0, 0, 0, 0, time.Local)
 
 	dailyBalances := make(map[time.Time]float64)
 	currentBalance := startingBalance
