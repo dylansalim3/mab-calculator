@@ -73,3 +73,19 @@ Average Daily Balance: $523.33
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## MoneyKit mobile app (Flutter, Android)
+
+`mobile/` contains **MoneyKit**, a standalone offline Android app with four calculators built on the logic in this repo: **MAB** (port of `main.go`), **Interest**, **Mortgage** and **CPF interest**. No backend, no network permission.
+
+- Spec and task breakdown: [`docs/PLAN.md`](docs/PLAN.md) · UI design: [`docs/UI_DESIGN.md`](docs/UI_DESIGN.md)
+- QA: [`docs/QA_TEST_CASES.md`](docs/QA_TEST_CASES.md) · [`docs/QA_REPORT.md`](docs/QA_REPORT.md)
+- Signed release APK is written to `dist/moneykit-1.0.0.apk` (git-ignored; rebuild with the command below)
+
+```bash
+cd mobile
+flutter test                 # unit + widget tests
+flutter build apk --release  # needs mobile/android/key.properties + keystore (git-ignored)
+```
+
+`mobile/android/key.properties` and `mobile/android/app/moneykit-release.jks` are the signing credentials. They are git-ignored; back them up, because the same key is needed for every future update of an installed app.
